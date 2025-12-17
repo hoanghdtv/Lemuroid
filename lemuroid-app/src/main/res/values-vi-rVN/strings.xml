@@ -162,4 +162,12 @@
     <string name="haptic_feedback_mode_names_none">Không</string>
     <string name="haptic_feedback_mode_names_press">Nhấn</string>
     <string name="haptic_feedback_mode_names_press_release">Nhấn &amp; thả</string>
+    <string name="lemuroid_policy_title">Quan trọng</string>
+    <string name="lemuroid_policy_content">
+    Bằng việc chọn Chấp nhận, tôi đồng ý với Điều khoản sử dụng và Chính sách quyền riêng tư.
+</string>
+    <string name="lemuroid_policy_accept">Chấp nhận</string>
+    <string name="lemuroid_policy_decline">Từ chối</string>
+    <string name="lemuroid_policy_link">Điều khoản sử dụng</string>
+    <string name="lemuroid_privacy_link">Chính sách quyền riêng tư</string>
 </resources>

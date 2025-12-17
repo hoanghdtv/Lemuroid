@@ -2,23 +2,37 @@ package com.swordfish.lemuroid.app.mobile.feature.main
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -76,8 +90,18 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import javax.inject.Inject
 
+
+
 @OptIn(DelicateCoroutinesApi::class)
 class MainActivity : RetrogradeComponentActivity(), BusyActivity {
+    // Add this constant inside the MainActivity class (e.g. companion object)
+    companion object {
+        private const val PREF_POLICY_ACCEPTED = "pref_policy_accepted"
+        private const val POLICY_URL = "https://your-app-policy-url.com/policy"
+        private const val PRIVACY_URL = "https://your-app-policy-url.com/privacy"
+    }
+
+
     @Inject
     lateinit var gameLaunchTaskHandler: GameLaunchTaskHandler
 
@@ -119,15 +143,30 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
             reviewManager.initialize(applicationContext)
         }
 
+        // Read acceptance flag synchronously before composing UI
+        val prefs: SharedPreferences = SharedPreferencesHelper.getLegacySharedPreferences(applicationContext)
+        val policyAccepted = prefs.getBoolean(PREF_POLICY_ACCEPTED, false)
+        val policyText = getString(R.string.lemuroid_policy_content)
+
         setContent {
             val navController = rememberNavController()
-            MainScreen(navController)
+            // pass prefs and initial accepted state into the composable
+            MainScreen(
+                navController,
+                initialPolicyAccepted = policyAccepted,
+                policyText = policyText,
+                prefs = prefs
+            )
         }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun MainScreen(navController: NavHostController) {
+    private fun MainScreen(navController: NavHostController,
+                           initialPolicyAccepted: Boolean,
+                           policyText: String,
+                           prefs: SharedPreferences,
+                           ) {
         AppTheme {
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry.value?.destination
@@ -374,6 +413,68 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
                     confirmButton = { },
                 )
             }
+        }
+
+        // policy dialog state: show when NOT accepted
+        val showPolicyDialog = remember { mutableStateOf(!initialPolicyAccepted) }
+
+        // existing Scaffold / NavHost / other UI...
+// Policy agree dialog (blocking)
+        if (showPolicyDialog.value) {
+            val context = LocalContext.current
+
+            AlertDialog(
+                onDismissRequest = { /* block dismiss - require explicit choice */ },
+                title = { Text(text = getString(R.string.lemuroid_policy_title)) },
+                text = {
+                    Column {
+                        HtmlText(text = policyText)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Row {
+                            Text(
+                                text = getString(R.string.lemuroid_policy_link),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier.clickable {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(POLICY_URL))
+                                    context.startActivity(intent)
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Text(
+                                text = getString(R.string.lemuroid_privacy_link),
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier.clickable {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL))
+                                    context.startActivity(intent)
+                                }
+                            )
+                        }
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        // accept: persist and hide dialog
+                        prefs.edit().putBoolean(PREF_POLICY_ACCEPTED, true).apply()
+                        showPolicyDialog.value = false
+                    }) {
+                        Text(text = getString(R.string.lemuroid_policy_accept))
+                    }
+                },
+//                dismissButton = {
+//                    Button(onClick = {
+//                        // decline: close activity
+//                        (this@MainActivity as? Activity)?.finish()
+//                    }) {
+//                        Text(text = getString(R.string.lemuroid_policy_decline))
+//                    }
+//                },
+            )
         }
     }
 

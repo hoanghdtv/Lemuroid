@@ -184,4 +184,12 @@
     <string name="tilt_configuration_buttons_l_r">L - R</string>
     <string name="tilt_configuration_buttons_l1_r1">L1 - R1</string>
     <string name="tilt_configuration_buttons_l2_r2">L2 - R2</string>
+    <string name="lemuroid_policy_title">Importante</string>
+    <string name="lemuroid_policy_content">
+    Ao selecionar Aceitar, concordo com os Termos de Uso e a Política de Privacidade.
+</string>
+    <string name="lemuroid_policy_accept">Aceitar</string>
+    <string name="lemuroid_policy_decline">Recusar</string>
+    <string name="lemuroid_policy_link">Termos de Uso</string>
+    <string name="lemuroid_privacy_link">Política de Privacidade</string>
 </resources>

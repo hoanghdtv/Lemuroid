@@ -10,9 +10,9 @@ plugins {
 
 android {
     defaultConfig {
-        versionCode = 231
-        versionName = "1.17.0" // Always remember to update Cores Tag!
-        applicationId = "com.swordfish.lemuroid"
+        versionCode = 1
+        versionName = "1.0.0" // Always remember to update Cores Tag!
+        applicationId = "com.retro.droid"
     }
     flavorDimensions += listOf("opensource", "cores")
 
@@ -96,12 +96,12 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs["release"]
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-            resValue("string", "lemuroid_name", "Lemuroid")
+            resValue("string", "lemuroid_name", "Retro Games")
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-DEBUG"
-            resValue("string", "lemuroid_name", "LemuroiDebug")
+            resValue("string", "lemuroid_name", "Retro Games")
         }
     }
 
