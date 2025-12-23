@@ -33,7 +33,7 @@ class LibraryIndexWork(context: Context, workerParams: WorkerParameters) :
                 notificationsManager.libraryIndexingNotification(),
             )
 
-        setForegroundAsync(foregroundInfo)
+//        setForegroundAsync(foregroundInfo)
 
         val result =
             withContext(Dispatchers.IO) {

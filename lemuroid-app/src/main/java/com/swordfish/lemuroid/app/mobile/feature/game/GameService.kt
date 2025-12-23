@@ -52,12 +52,12 @@ class GameService : Service() {
 
     private fun displayNotification(game: Game?) {
         val notification = NotificationsManager(applicationContext).gameRunningNotification(game)
-        ServiceCompat.startForeground(
-            this,
-            NotificationsManager.GAME_RUNNING_NOTIFICATION_ID,
-            notification,
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
-        )
+//        ServiceCompat.startForeground(
+//            this,
+//            NotificationsManager.GAME_RUNNING_NOTIFICATION_ID,
+//            notification,
+//            ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
+//        )
     }
 
     private fun hideNotification() {

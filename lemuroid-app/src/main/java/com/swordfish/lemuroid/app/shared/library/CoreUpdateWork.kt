@@ -45,7 +45,7 @@ class CoreUpdateWork(context: Context, workerParams: WorkerParameters) :
                 notificationsManager.installingCoresNotification(),
             )
 
-        setForegroundAsync(foregroundInfo)
+//        setForegroundAsync(foregroundInfo)
 
         try {
             val cores =

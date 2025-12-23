@@ -10,7 +10,8 @@ fun createSyncForegroundInfo(
     notification: Notification,
 ): ForegroundInfo {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        ForegroundInfo(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+//        ForegroundInfo(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        ForegroundInfo(notificationId, notification)
     } else {
         ForegroundInfo(notificationId, notification)
     }

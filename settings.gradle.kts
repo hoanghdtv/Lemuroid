@@ -22,8 +22,9 @@ include(
 project(":bundled-cores").projectDir = File("lemuroid-cores/bundled-cores")
 
 fun usePlayDynamicFeatures(): Boolean {
-    val task = gradle.startParameter.taskRequests.toString()
-    return task.contains("Play") && task.contains("Dynamic")
+//    val task = gradle.startParameter.taskRequests.toString()
+//    return task.contains("Play") && task.contains("Dynamic")
+    return true;
 }
 
 if (usePlayDynamicFeatures()) {

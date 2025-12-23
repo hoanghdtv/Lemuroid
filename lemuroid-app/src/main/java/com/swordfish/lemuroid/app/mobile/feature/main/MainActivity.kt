@@ -97,8 +97,8 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
     // Add this constant inside the MainActivity class (e.g. companion object)
     companion object {
         private const val PREF_POLICY_ACCEPTED = "pref_policy_accepted"
-        private const val POLICY_URL = "https://your-app-policy-url.com/policy"
-        private const val PRIVACY_URL = "https://your-app-policy-url.com/privacy"
+        private const val POLICY_URL = "https://www.freeprivacypolicy.com/live/55e4944b-6bf6-41b3-819b-691159ff4849"
+        private const val PRIVACY_URL = "https://www.freeprivacypolicy.com/live/1dc14cb2-fa23-4a45-8e17-f7003aa3c425"
     }
 
 
@@ -438,7 +438,7 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
                                     textDecoration = TextDecoration.Underline
                                 ),
                                 modifier = Modifier.clickable {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(POLICY_URL))
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL))
                                     context.startActivity(intent)
                                 }
                             )
@@ -450,7 +450,7 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
                                     textDecoration = TextDecoration.Underline
                                 ),
                                 modifier = Modifier.clickable {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_URL))
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(POLICY_URL))
                                     context.startActivity(intent)
                                 }
                             )

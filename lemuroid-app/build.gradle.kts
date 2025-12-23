@@ -6,11 +6,12 @@ plugins {
     id("kotlinx-serialization")
     id("androidx.baselineprofile")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.gms.google-services")
 }
 
 android {
     defaultConfig {
-        versionCode = 1
+        versionCode = 3
         versionName = "1.0.0" // Always remember to update Cores Tag!
         applicationId = "com.retro.droid"
     }
@@ -84,10 +85,10 @@ android {
         }
 
         maybeCreate("release").apply {
-            storeFile = file("$rootDir/release.jks")
-            keyAlias = "lemuroid"
-            storePassword = "lemuroid"
-            keyPassword = "lemuroid"
+            storeFile = file("$rootDir/retroteam.jks")
+            keyAlias = "retroteam"
+            storePassword = "retroteam"
+            keyPassword = "retroteam"
         }
     }
 
@@ -99,7 +100,7 @@ android {
             resValue("string", "lemuroid_name", "Retro Games")
         }
         getByName("debug") {
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ""
             versionNameSuffix = "-DEBUG"
             resValue("string", "lemuroid_name", "Retro Games")
         }
@@ -203,6 +204,21 @@ dependencies {
 
     implementation(deps.libs.libretrodroid)
 
+    implementation("com.google.android.gms:play-services-ads:22.2.0")
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation("com.google.firebase:firebase-analytics")
+
+    // TODO: Add the dependencies for any other Firebase products you want to use
+    // See https://firebase.google.com/docs/android/setup#available-libraries
+    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
+//    implementation("com.google.firebase:firebase-auth")
+//    implementation("com.google.firebase:firebase-firestore")
+
     // Uncomment this when using a local aar file.
     // implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
@@ -213,4 +229,5 @@ dependencies {
 fun usePlayDynamicFeatures(): Boolean {
     val task = gradle.startParameter.taskRequests.toString()
     return task.contains("Play") && task.contains("Dynamic")
+//    return true;
 }

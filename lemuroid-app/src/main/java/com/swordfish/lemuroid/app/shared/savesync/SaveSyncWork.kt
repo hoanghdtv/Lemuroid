@@ -86,7 +86,7 @@ class SaveSyncWork(context: Context, workerParams: WorkerParameters) :
                 NotificationsManager.SAVE_SYNC_NOTIFICATION_ID,
                 notificationsManager.saveSyncNotification(),
             )
-        setForegroundAsync(foregroundInfo)
+//        setForegroundAsync(foregroundInfo)
     }
 
     companion object {
